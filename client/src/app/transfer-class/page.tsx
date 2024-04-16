@@ -99,12 +99,11 @@ export default function Page() {
       (s) => s.id !== student.id
     );
     setStudentsRight(updatedStudentsRight);
-
     // Add student to the left container
     setStudentsLeft([...studentsLeft, student]);
   };
   return (
-    <div className="px-0 md:p-10">
+    <div className="px-0 md:p-10 bg-blue-600 pt-2">
       <div className="flex gap-2">
         <select
           value={selectedClassLeft}
@@ -148,6 +147,7 @@ export default function Page() {
                   key={student.id}
                   student={student}
                   onDrop={() => moveStudentRight(student)}
+
                 />
               ))
             ) : (
@@ -167,7 +167,7 @@ export default function Page() {
       </DndContext>
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           color="success"
           onClick={handleChangeClass}
         >

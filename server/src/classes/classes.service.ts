@@ -36,4 +36,13 @@ export class ClassesService {
   remove(id: string) {
     return this.classesRepository.delete(id);
   }
+  async getBarChart() {
+    const classes = await this.classesRepository.find({ relations: ['students'] });
+    // Tính số lượng học sinh trong mỗi lớp
+    const barChartData = classes.map(classItem => ({
+      className: classItem.name,
+      numberOfStudents: classItem.students.length,
+    }));
+    return barChartData;
+  }
 }

@@ -36,11 +36,11 @@ export default function Page() {
     () => fetchStudents(chooseClass?.id as string)
   );
   return (
-    <div className="px-0 md:px-4">
-      <h1 className="text-center text-xl font-bold bg-gradient-to-t from-purple-500 to-pink-500 bg-clip-text text-transparent">Attendance</h1>
+    <div className="px-0 md:px-4 bg-blue-600">
+      <h1 className="text-center text-xl font-bold p-2 text-white">Kết quả điểm danh </h1>
       {/* select class */}
       <select
-        className="w-full border border-gray-300 rounded-md mb-2 p-2 bg-gradient-to-t from-purple-500 to-pink-500 bg-clip-text text-transparent"
+        className="w-full border border-gray-300 rounded-md mb-2 p-2 "
         onChange={(e) => {
           const classId = e.target.value;
           const classSelected = (data as IClass[]).find(

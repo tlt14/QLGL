@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { IStudent } from "@/app/types/common";
+import { message } from "antd";
 
 // Fetch classes function remains unchanged
 
@@ -45,6 +46,9 @@ export default function Page({ params }: { params: { id: string } }) {
       });
       setScores(scoresData);
       setStudents(studentData);
+    }else{
+      setStudents([]);
+      setScores({});
     }
   }, [studentData]);
 
@@ -63,6 +67,11 @@ export default function Page({ params }: { params: { id: string } }) {
       student: id,
       ...score,
     }));
+    // check data here
+    if (!updatedScores.every(({ student, midterm, final }) => student && midterm && final)) {
+      message.error("Vui lòng điền đầy đủ điểm thi");
+      return;
+    }
     try {
       await fetch("http://localhost:4000/scores", {
         method: "POST",
@@ -76,21 +85,20 @@ export default function Page({ params }: { params: { id: string } }) {
       console.error("Error updating scores:", error);
     }
   };
+  console.log(students)
 
   return (
-    <div>
-      <h1>Attendance {params.id}</h1>
-
+    <div className="w-full bg-blue-600 pt-2">
       <form className="max-w-sm mx-auto">
         <label
           htmlFor="countries"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Chọn lớp
+          Chọn lớp muốn ghi điểm
         </label>
         <select
           id="countries"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={(e) => {
             const selectedClass = classes.find(
               (item: any) => item.id === e.target.value
@@ -106,7 +114,7 @@ export default function Page({ params }: { params: { id: string } }) {
         </select>
       </form>
 
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 items-center">
+      <table className="w-full text-sm text-left rtl:text-right dark:text-gray-400 items-center text-white">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-0 py-3">
@@ -121,15 +129,17 @@ export default function Page({ params }: { params: { id: string } }) {
           </tr>
         </thead>
         <tbody>
-          {students?.map((item: any) => (
+          {students.length>0?
+          students?.map((item: any) => (
             <tr
               key={item.id}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
-              <td className="px-0 py-4">{item.full_name || ""}</td>
+              <td className="px-0 py-4">{item.student.full_name || ""}</td>
               <td className="px-0 py-4">
                 <input
-                  type="text"
+                  className="w-10 outline-none "
+                  type="number"
                   value={scores[item.id]?.midterm || ""}
                   onChange={(e) =>
                     updateScore(item.id, "midterm", e.target.value)
@@ -138,7 +148,8 @@ export default function Page({ params }: { params: { id: string } }) {
               </td>
               <td className="px-0 py-4">
                 <input
-                  type="text"
+                  className="w-10 outline-none "
+                  type="number"
                   value={scores[item.id]?.final || ""}
                   onChange={(e) =>
                     updateScore(item.id, "final", e.target.value)
@@ -146,10 +157,13 @@ export default function Page({ params }: { params: { id: string } }) {
                 />
               </td>
             </tr>
-          ))}
+          )):<tr><td>Không có học sinh nào trong lớp</td></tr>}
         </tbody>
       </table>
-      <button onClick={sendScores}>Lưu điểm</button>
+      <div className="w-full justify-center flex ">
+      <button onClick={sendScores} className="btn p-2 bg-green-500 text-white  mt-2 rounded focus:bg-green-800">Lưu điểm</button>
+
+      </div>
     </div>
   );
 }

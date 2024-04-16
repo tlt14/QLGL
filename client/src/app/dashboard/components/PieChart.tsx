@@ -2,21 +2,16 @@
 import { ArcElement, CategoryScale, Chart } from "chart.js";
 import { Pie } from "react-chartjs-2";
 Chart.register(ArcElement);
-export default function PieChart({ className }: { className?: string }) {
+export default function PieChart({ className ,dataChart}: { className?: string ,dataChart:any}) {
   const data = {
-    labels: ["Red", "Blue", "Yellow", "quần què"],
+    labels: dataChart.map((item:any) => item.className),
     datasets: [
       {
-        label: "My First Dataset",
-        data: [300, 50, 100, 500],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-          "rgb(255, 205, 0)",
-        ],
+        label: "Sỉ số các lớp",
+        data: dataChart.map((item:any) => item.numberOfStudents),
+        backgroundColor: dataChart.map((item:any) => `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`),
         hoverOffset: 4,
-        borderColor: "rgb(255, 99, 132)",
+        borderColor: "green",
       },
     ],
   };

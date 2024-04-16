@@ -26,7 +26,13 @@ export class GradesService {
   }
 
   update(id: string, updateGradeDto: UpdateGradeDto) {
-    return this.gradesRepository.update(id, updateGradeDto);
+    // change name grade
+    return this.gradesRepository
+      .createQueryBuilder()
+      .update(Grade)
+      .set({ name: updateGradeDto.name })
+      .where({ id })
+      .execute();
   }
 
   remove(id: string) {

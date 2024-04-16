@@ -33,8 +33,16 @@ export default function Page() {
           title={"Giáo lý viên"}
           value={data?.totalUser}
         />
-        <PieChart className="col-span-1 p-2" />
-        <BarChart />
+        {
+          data &&
+          data?.barchart &&
+          <PieChart className="col-span-1 p-2" dataChart={data?.barchart}/>
+        }
+        {
+          data &&
+          data?.barchart &&
+          <BarChart dataChart={data?.barchart}/>
+        }
       </div>
     </div>
   );

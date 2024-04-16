@@ -6,6 +6,7 @@ import useSWR, { mutate } from "swr";
 import { IClass, IGrade } from "../types/common";
 import { CSVLink } from "react-csv";
 import ModalConfirm from "../components/ModalConfirm";
+import { VscChecklist } from "react-icons/vsc";
 
 const fetchClasses = async () => {
   const res = await fetch("http://localhost:4000/classes");
@@ -109,32 +110,21 @@ export default function Classes() {
           </button>
         </div>
       </div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mt-2">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white ">
+        <table className="w-full overflow-x-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-collapse border-2">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="p-4">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
-              <th scope="col" className="px-0 py-3">
+              
+              <th scope="col" className="px-1 py-3">
                 Tên lớp
               </th>
-              <th scope="col" className="px-0 py-3">
+              <th scope="col" className="px-1 py-3">
                 Tên khối
               </th>
-              <th scope="col" className="px-0 py-3">
+              <th scope="col" className="px-1 py-3">
                 Sỉ số
               </th>
-              <th scope="col" className="px-0 py-3">
+              <th scope="col" className="px-1 py-3">
                 Hành động
               </th>
             </tr>
@@ -146,34 +136,20 @@ export default function Classes() {
                   key={item.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-2"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-2"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
+                  
                   <Link
                     href={`/students/${item.id}`}
-                    className="flex items-center px-0 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    className="flex items-center px-1 py-4 font-medium text-gray-900 whitespace-break-spaces truncate dark:text-white"
                   >
                     {item.name}
                   </Link>
-                  <td className="px-0 py-4">{item?.grade?.name || ""}</td>
-                  <td className="px-0 py-4">
+                  <td className="px-1 py-4 whitespace-break-spaces">{item?.grade?.name || ""}</td>
+                  <td className="px-1 py-4 whitespace-break-spaces">
                     <div className="flex items-center">
                       {item?.students?.length || 0}
                     </div>
                   </td>
-                  <td className="px-0 py-4 flex flex-wrap gap-2 items-center">
+                  <td className="px-1 py-4 whitespace-break-spaces flex flex-wrap gap-2 items-center">
                     <button
                       onClick={() => {
                         setShowModal(true);
@@ -192,13 +168,13 @@ export default function Classes() {
                     </button>
                     <Link
                       href={`/attendance/${item.id}`}
-                      className="text-blue-800 bg-white rounded px-2 py-2"
+                      className="text-blue-800 bg-white rounded px-2 py-1 md:p-2 flex justify-center items-center"
                     >
-                      Điểm danh
+                      <span className="hidden md:block">Điểm danh</span> <VscChecklist size={20} />
                     </Link>
                   </td>
                 </tr>
-              );
+              );  
             })}
           </tbody>
         </table>

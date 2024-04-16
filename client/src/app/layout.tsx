@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <ProviderSession>
       <html lang="en" className="dark">
-        <body className={"dark bg-transparent"}>
+        <body className={"bg-no-repeat bg-blue-600"}>
           <Header />
           {children}
         </body>

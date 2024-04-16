@@ -19,6 +19,7 @@ export class AppService {
       totalStudents: (await this.studentsService.findAll()).length,
       totalClass: (await this.classesService.findAll()).length,
       totalUser: (await this.userService.findAll()).length,
+      barchart: await this.classesService.getBarChart(),
     };
   }
 }

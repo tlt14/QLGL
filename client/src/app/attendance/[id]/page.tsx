@@ -94,38 +94,44 @@ export default function Page({ params }: { params: { id: string } }) {
           </tr>
         </thead>
         <tbody>
-          {data?.map((item: IStudent) => {
-            return (
-              <tr
-                key={item.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <td className="px-0 py-4">{item.full_name || ""}</td>
-                <td className="px-0 py-4">
-                  <input
-                    type="checkbox"
-                    onChange={(e) => {
-                      console.log(
-                        item.id,
-                        date.toISOString().split("T")[0],
-                        sessionId?.id
-                      );
-                      handleAttendance(item.id, e.target.checked);
-                    }}
-                    checked={
-                      records &&
-                      records?.students?.some(
-                        (record: any) => record.student.id === item.id
-                      ) &&
-                      sessionId?.id !== undefined
-                        ? true
-                        : false
-                    }
-                  />
-                </td>
-              </tr>
-            );
-          })}
+          {
+            data?.length >0?
+            data?.map((item: IStudent) => {
+              return (
+                <tr
+                  key={item.id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="px-0 py-4">{item.full_name || ""}</td>
+                  <td className="px-0 py-4">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => {
+                        console.log(
+                          item.id,
+                          date.toISOString().split("T")[0],
+                          sessionId?.id
+                        );
+                        handleAttendance(item.id, e.target.checked);
+                      }}
+                      checked={
+                        records &&
+                        records?.students?.some(
+                          (record: any) => record.student.id === item.id
+                        ) &&
+                        sessionId?.id !== undefined
+                          ? true
+                          : false
+                      }
+                    />
+                  </td>
+                </tr>
+              );
+            }):
+            <tr>
+              <td>Không có học sinh nào trong lớp</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
